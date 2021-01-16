@@ -1,10 +1,14 @@
 import redis
+import json
 
-connections = [{'host': 'localhost', 'port':6379, 'db':0},{'host': 'localhost', 'port':6379, 'db':1}]
+JSON_CONNECTIONS = '[{"host": "localhost", "port":"6379", "db":"0"},{"host": "localhost", "port":"6379", "db":1}]'
+#connections = [{'host': 'localhost', 'port':6379, 'db':0},{'host': 'localhost', 'port':6379, 'db':1}]
+connections = json.loads(JSON_CONNECTIONS)
 CHUNK_SIZE = 2
 
 def scanClean():
     for connection in connections:
+        print(connection)
         client = redis.Redis(host=connection['host'], port=connection['port'],db=connection['db'])
         mock()
         clean("*", client, connection)
@@ -15,7 +19,6 @@ def clean(pattern, client, connection):
     while cursor != 0:
         cursor, keys = client.scan(cursor=cursor, match=pattern, count=CHUNK_SIZE)
         if keys:
-            print(keys)
             deleted_count += client.delete(*keys)
         
     print('{} registries deleted from: {} DB {}'.format(deleted_count,connection['host'],connection['db']))
