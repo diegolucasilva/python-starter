@@ -1,13 +1,15 @@
 import redis
 import json
+import optparse
+import os
 
 JSON_CONNECTIONS = '[{"host": "localhost", "port":"6379", "db":"0"},{"host": "localhost", "port":"6379", "db":1}]'
 #connections = [{'host': 'localhost', 'port':6379, 'db':0},{'host': 'localhost', 'port':6379, 'db':1}]
 connections = json.loads(JSON_CONNECTIONS)
-CHUNK_SIZE = os.getenv('CHUNK_SIZE')
 
 def scanClean():
-    print(CHUNK_SIZE)
+    CHUNK_SIZE = os.getenv('CHUNK_SIZE')
+    print("fdsfdsa{}",CHUNK_SIZE)
     #for connection in connections:
      #   print(connection)
       #  cache = redis.Redis(host=connection['host'], port=connection['port'],db=connection['db'])
